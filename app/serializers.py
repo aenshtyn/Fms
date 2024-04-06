@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from app.models import Employee, Feed, Crop, Inventory, FeedConsumption
+from app.models import Employee, Feed, Crop, Inventory
 
 class EmployeeSerializer(serializers.ModelSerializer):
     

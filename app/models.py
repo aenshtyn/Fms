@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 import datetime
 from  django.utils import timezone
 from livestock.models import Livestock
@@ -99,17 +99,17 @@ class Inventory(models.Model):
             self.quantity -= total_consumed
             self.save()
     
-class FeedConsumption(models.Model):
-    feed_item = models.ForeignKey(Inventory, on_delete=models.CASCADE)
-    livestock = models.ForeignKey(Livestock, on_delete=models.CASCADE)
-    date_consumed = models.DateField(default=timezone.now)
-    quantity_consumed = models.DecimalField(max_digits=10, decimal_places=2)
+# class FeedConsumption(models.Model):
+#     feed_item = models.ForeignKey(Inventory, on_delete=models.CASCADE)
+#     species = models.ForeignKey(Livestock, on_delete=models.CASCADE)
+#     date_consumed = models.DateField(default=timezone.now)
+#     quantity_consumed = models.DecimalField(max_digits=10, decimal_places=2)
 
-    def save(self, *args, **kwargs):
-        # Update the available quantity of the feed item after consumption
-        self.feed_item.quantity -= self.quantity_consumed
-        self.feed_item.save()
-        super().save(*args, **kwargs)
+#     def save(self, *args, **kwargs):
+#         # Update the available quantity of the feed item after consumption
+#         self.feed_item.quantity -= self.quantity_consumed
+#         self.feed_item.save()
+#         super().save(*args, **kwargs)
 
 
 # class Field(models.Model):     
