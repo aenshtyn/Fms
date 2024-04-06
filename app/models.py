@@ -101,10 +101,10 @@ class Livestock(NameMixin, AgeMixin, GenderMixin, models.Model):
     def __str__(self):
         return self.name if self.name else f'{self.species} ({self.breed})'
     
-class MilkProduction(models.Model)
+class MilkProduction(models.Model):
     cow = models.ForeignKey(Livestock, on_delete=models.CASCADE, verbose_name="Cow")
     milking_date = models.DateField(verbose_name="Milking Date")
-    morning_volume  = models.DecimalField(max_digits=2, decimal_places=2 verbose_name="Morning Volume (liters)")
+    morning_volume  = models.DecimalField(max_digits=2, decimal_places=2, verbose_name="Morning Volume (liters)")
     evening_volume  = models.DecimalField(max_digits=2, decimal_places=2, verbose_name="Evening Volume (liters)")
 
     class Meta:
