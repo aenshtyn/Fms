@@ -1,13 +1,13 @@
 from django.shortcuts import render
 from django.http.response import JsonResponse
-from rest_framework import status, mixins, viewsets
+from rest_framework import status, viewsets
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.parsers import JSONParser
 
-from app.models import Employee, Livestock
-from app.serializers import EmployeeSerializer, LivestockSerializer
+from livestock.models import Livestock
+from app.serializers import LivestockSerializer
 import datetime
 from datetime import timedelta
 from django.utils import timezone

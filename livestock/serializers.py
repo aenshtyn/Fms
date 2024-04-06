@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from app.models import Livestock
+from models import Livestock
 
 class LivestockSerializer(serializers.ModelSerializer):
     
