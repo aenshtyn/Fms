@@ -18,17 +18,19 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('crm.urls')),
-    path('api/', include('crop.urls')),
-    path('api/', include('dairy.urls')),
-    path('api/', include('equipment.urls')),
-    path('api/', include('finance.urls')),
-    path('api/', include('hr.urls')),
-    path('api/', include('inventory.urls')),
-    path('api/', include('land.urls')),
-    path('api/', include('livestock.urls')),
-    path('api/', include('management.urls')),
-    path('api/', include('procurement.urls')),
-    path('api/', include('production.urls')),
-    # path('api/auth/', include('authentication.urls'))
+    path('api/', include([
+        path('crm/', include('crm.urls')),
+        path('crop/', include('crop.urls')),
+        path('dairy/', include('dairy.urls')),
+        path('equipment/', include('equipment.urls')),
+        path('finance/', include('finance.urls')),
+        path('hr/', include('hr.urls')),
+        path('inventory/', include('inventory.urls')),
+        path('land/', include('land.urls')),
+        path('livestock/', include('livestock.urls')),
+        path('management/', include('management.urls')),
+        path('procurement/', include('procurement.urls')),
+        path('production/', include('production.urls')),
+        # Add other app URLs here
+    ])),
 ]

@@ -2,13 +2,13 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from app import views
 
-from .views import CrmViewSet
+from .views import ClientViewSet
 
 router = DefaultRouter()
-router.register(r'crm', CrmViewSet, basename='Crms')
+router.register(r'crm', ClientViewSet, basename='Clients')
 
 urlpatterns = [
-    # Crms
+    # Clients
     path('', include(router.urls)),
 
 ]

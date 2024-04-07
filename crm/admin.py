@@ -1,6 +1,6 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Crm
+from .models import Client
 
-admin.site.register(Crm)
+admin.site.register(Client)

@@ -6,16 +6,16 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.parsers import JSONParser
 
-from .models import Crm
-from .serializers import CrmSerializer
+from .models import Client
+from .serializers import ClientSerializer
 import datetime
 from datetime import timedelta
 from django.utils import timezone
 
-class CrmViewSet(viewsets.ModelViewSet):
+class ClientViewSet(viewsets.ModelViewSet):
 
-    queryset = Crm.objects.all()
-    serializer_class = CrmSerializer
+    queryset = Client.objects.all()
+    serializer_class = ClientSerializer
 
     def list(self, request):
         queryset = super().get_queryset()
@@ -55,11 +55,11 @@ class CrmViewSet(viewsets.ModelViewSet):
 
 
 # @api_view(['GET'])
-# def Crms_analytics(request):
-#     total_Crms = Crm.objects.all().count()
+# def Clients_analytics(request):
+#     total_Clients = Client.objects.all().count()
 
 #     data = {
-#         'total_Crms': total_Crms,
+#         'total_Clients': total_Clients,
 #     }
 
 #     return JsonResponse(data)

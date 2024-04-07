@@ -1,7 +1,7 @@
 from django.db import models
 
 # Create your models here.
-from FMS.mixins import NameMixin, AgeMixin, GenderMixin
+# from FMS.mixins import , AgeMixin, GenderMixin
 
 class Crop(models.Model):
     name = models.CharField(max_length=100)

@@ -6,7 +6,7 @@ from .views import ProductionViewSet
 
 
 router = DefaultRouter()
-router.register(r'producttion', ProductionViewSet, basename='Production')
+router.register(r'production', ProductionViewSet, basename='Production')
 
 
 urlpatterns = [

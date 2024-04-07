@@ -1,8 +1,8 @@
 from rest_framework import serializers
-from .models import Crm
+from .models import Client
 
-class CrmSerializer(serializers.ModelSerializer):
+class ClientSerializer(serializers.ModelSerializer):
     
     class Meta:
-        model = Crm
+        model = Client
         fields = '__all__'

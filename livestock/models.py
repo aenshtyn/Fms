@@ -3,10 +3,10 @@ from django.db import models
 import datetime
 # from django.contrib.auth.models import User
 from  django.utils import timezone
-from FMS.mixins import NameMixin, AgeMixin, GenderMixin
+from FMS.mixins import AgeMixin, GenderMixin
 
 # Create your models here.
-class Livestock(NameMixin, AgeMixin, GenderMixin, models.Model):
+class Livestock(AgeMixin, GenderMixin, models.Model):
 
     SPECIES_CHOICES = [
         ('cattle', 'Cattle'),

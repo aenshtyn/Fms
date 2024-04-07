@@ -3,10 +3,10 @@ from django.db import models
 import datetime
 from  django.utils import timezone
 from livestock.models import Livestock
-from FMS.mixins import NameMixin, AgeMixin, GenderMixin
+from FMS.mixins import AgeMixin, GenderMixin
 
     
-class Employee(NameMixin, AgeMixin, GenderMixin, models.Model):
+class Employee(AgeMixin, GenderMixin, models.Model):
     department = models.CharField(max_length=100)
     position = models.CharField(max_length=100)
     hire_date = models.DateField()
@@ -18,8 +18,8 @@ class Employee(NameMixin, AgeMixin, GenderMixin, models.Model):
     def __str__(self):
        return f'{self.name}'
     
-    class Meta: 
-        ordering = ['first_name', 'last_name']
+    # class Meta: 
+    #     ordering = ['first_name', 'last_name']
 
 
 class Feed(models.Model):
