@@ -4,21 +4,26 @@ import datetime
 
 
 class TaskSerializer(serializers.ModelSerializer):
+    assigned_to = serializers.ReadOnlyField(source='assigned_to.name')
     class Meta:
         model = Task
-        fields = '__all__'
+        fields = 'assigned_to', 'title', 'description', 'category', 'status', 'priority'
 
 class LeaveSerializer(serializers.ModelSerializer):
+    employee = serializers.ReadOnlyField(source='employee.name')
     class Meta:
         model = Leave
-        fields = '__all__'
+        fields = 'employee', 'leave_duration', 'start_date', 'end_date'
 
 class OnboardingSerializer(serializers.ModelSerializer):
+   
+    employee = serializers.ReadOnlyField(source='employee.name')
     class Meta:
         model = Onboarding
-        fields = '__all__'
+        fields = 'id','employee', 'orientation_completed', 'training_completed', 'documents_completed'
 
 class AttendanceSerializer(serializers.ModelSerializer):
+    employee = serializers.ReadOnlyField(source='employee.name')
     class Meta:
         model = Attendance
         fields = '__all__'
@@ -29,6 +34,7 @@ class RecruitmentSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class FeedbackSerializer(serializers.ModelSerializer):
+    employee = serializers.ReadOnlyField(source='employee.name')
     class Meta:
         model = Feedback
         fields = '__all__'

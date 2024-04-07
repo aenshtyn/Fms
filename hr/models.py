@@ -68,8 +68,17 @@ class Leave(models.Model):
         ('other', 'Other'),
     ])
 
+    def leave_duration(self):
+        if self.end_date >= self.start_date:
+            duration = self.end_date - self.start_date
+            return duration.days + 1  # Include both start and end dates in the count
+        else:
+            # Handle invalid date range
+            return 0
+    
     def __str__(self):
         return f'{self.employee} - {self.start_date} to {self.end_date}'
+    
     
 class Onboarding(models.Model):
     employee = models.OneToOneField(Employee, on_delete=models.CASCADE)
