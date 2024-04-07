@@ -1,32 +1,41 @@
 from rest_framework import serializers
-from .models import Livestock, HealthRecord, BreedingRecord, ReproductionRecord, VaccinationRecord, MortalityRecord
+from .models import Animal, Health, Breeding, Reproduction, Vaccination, Mortality
+from dairy.serializers import MilkProductionSerializer
 
-class LivestockSerializer(serializers.ModelSerializer):
+class AnimalSerializer(serializers.ModelSerializer):
+    # calves = serializers.SerializerMethodField()
+    # ai_records = serializers.SerializerMethodField()
+    # calvings = serializers.SerializerMethodField()
+    # treatments = serializers.SerializerMethodField()
+    # parents = serializers.SerializerMethodField()
+    # milk_production = serializers.SerializerMethodField()
     class Meta:
-        model = Livestock
+        model = Animal
         fields = '__all__'
 
-class HealthRecordSerializer(serializers.ModelSerializer):
+    # def get_calves
+
+class HealthSerializer(serializers.ModelSerializer):
     class Meta:
-        model = HealthRecord
+        model = Health
         fields = '__all__'
 
-class BreedingRecordSerializer(serializers.ModelSerializer):
+class BreedingSerializer(serializers.ModelSerializer):
     class Meta:
-        model = BreedingRecord
+        model = Breeding
+        fields = 'animal','expected_due_date'
+
+class ReproductionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Reproduction
         fields = '__all__'
 
-class ReproductionRecordSerializer(serializers.ModelSerializer):
+class VaccinationSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ReproductionRecord
+        model = Vaccination
         fields = '__all__'
 
-class VaccinationRecordSerializer(serializers.ModelSerializer):
+class MortalitySerializer(serializers.ModelSerializer):
     class Meta:
-        model = VaccinationRecord
-        fields = '__all__'
-
-class MortalityRecordSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = MortalityRecord
+        model = Mortality
         fields = '__all__'

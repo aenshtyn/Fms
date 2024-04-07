@@ -1,10 +1,10 @@
 from rest_framework import viewsets
-from .models import Livestock, Health, Breeding, Reproduction, Vaccination, Mortality
-from .serializers import LivestockSerializer, HealthSerializer, BreedingSerializer, ReproductionSerializer, VaccinationSerializer, MortalitySerializer
+from .models import Animal, Health, Breeding, Reproduction, Vaccination, Mortality
+from .serializers import AnimalSerializer, HealthSerializer, BreedingSerializer, ReproductionSerializer, VaccinationSerializer, MortalitySerializer
 
-class LivestockViewSet(viewsets.ModelViewSet):
-    queryset = Livestock.objects.all()
-    serializer_class = LivestockSerializer
+class AnimalViewSet(viewsets.ModelViewSet):
+    queryset = Animal.objects.all()
+    serializer_class = AnimalSerializer
 
 class HealthViewSet(viewsets.ModelViewSet):
     queryset = Health.objects.all()

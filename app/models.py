@@ -2,7 +2,7 @@ from django.db import models
 # from django.contrib.auth.models import User
 import datetime
 from  django.utils import timezone
-from livestock.models import Livestock
+from livestock.models import Animal
 from FMS.mixins import AgeMixin, GenderMixin
 
     
