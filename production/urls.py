@@ -2,8 +2,11 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from app import views
 
+from .views import ProductionViewSet
+
 
 router = DefaultRouter()
+router.register(r'producttion', ProductionViewSet, basename='Production')
 
 
 urlpatterns = [

@@ -27,8 +27,28 @@ class Livestock(NameMixin, AgeMixin, GenderMixin, models.Model):
     sale_price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     health_status = models.CharField(blank=True, max_length=100)
     notes = models.TextField(blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name if self.name else f'{self.species} ({self.breed})'
+    
+class HealthRecord(models.Model):
+    cow = models.ForeignKey(Livestock, on_delete=models.CASCADE)
+    date = models.DateField()
+    condition = models.CharField(max_length=100)
+    treatment = models.TextField()
+
+    def __str__(self):
+        return f"{self.cow.name} - {self.date}"
+    
+
+class MilkProduction(models.Model):
+    cow = models.ForeignKey(Livestock, on_delete=models.CASCADE, verbose_name="Cow")
+    milking_date = models.DateField(verbose_name="Milking Date")
+    morning_volume  = models.DecimalField(max_digits=2, decimal_places=2, verbose_name="Morning Volume (liters)")
+    evening_volume  = models.DecimalField(max_digits=2, decimal_places=2, verbose_name="Evening Volume (liters)")
+
+    class Meta:
+        verbose_name = "Milk Production"
+    
+    def __str__(self):
+        return f"{self.cow.name} - {self.milking_date}"

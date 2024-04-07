@@ -21,19 +21,6 @@ class Employee(NameMixin, AgeMixin, GenderMixin, models.Model):
     class Meta: 
         ordering = ['first_name', 'last_name']
 
-    
-class MilkProduction(models.Model):
-    cow = models.ForeignKey(Livestock, on_delete=models.CASCADE, verbose_name="Cow")
-    milking_date = models.DateField(verbose_name="Milking Date")
-    morning_volume  = models.DecimalField(max_digits=2, decimal_places=2, verbose_name="Morning Volume (liters)")
-    evening_volume  = models.DecimalField(max_digits=2, decimal_places=2, verbose_name="Evening Volume (liters)")
-
-    class Meta:
-        verbose_name = "Milk Production"
-    
-    def __str__(self):
-        return f"{self.cow.name} - {self.milking_date}"
-
 
 class Feed(models.Model):
     FEED_TYPE_CHOICES = [
