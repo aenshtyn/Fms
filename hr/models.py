@@ -33,6 +33,7 @@ class Employee(PersonDetailsMixin, AgeMixin, GenderMixin, models.Model):
     def __str__(self):
        return f'{self.name}'
     
+    
 
 class Task(models.Model):
     title = models.CharField(max_length=100)
@@ -59,7 +60,6 @@ class Leave(models.Model):
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
     start_date = models.DateField()
     end_date = models.DateField()
-    reason = models.TextField()
     approved = models.BooleanField(default=False)
     leave_type = models.CharField(max_length=50, choices=[
         ('vacation', 'Vacation'),
@@ -67,7 +67,6 @@ class Leave(models.Model):
         ('maternity_paternity_leave', 'Maternity/Paternity Leave'),
         ('other', 'Other'),
     ])
-    comments = models.TextField(blank=True)
 
     def __str__(self):
         return f'{self.employee} - {self.start_date} to {self.end_date}'
