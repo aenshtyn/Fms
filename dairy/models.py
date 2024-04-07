@@ -15,3 +15,9 @@ class MilkProduction(models.Model):
     
     def __str__(self):
         return f"{self.cow.name} - {self.milking_date}"
+    
+class DairyFeeds(models.Model):
+    date = models.DateField()
+    feed_type = models.CharField()
+    quantity = models.DecimalField(max_digits=3, decimal_places=2)
+    
