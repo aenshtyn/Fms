@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import Animal, Health, Breeding, Reproduction, Vaccination, Mortality
-from dairy.serializers import MilkProductionSerializer
+from dairy.models import MilkProduction
 
 class AnimalSerializer(serializers.ModelSerializer):
     # calves = serializers.SerializerMethodField()
@@ -8,10 +8,16 @@ class AnimalSerializer(serializers.ModelSerializer):
     # calvings = serializers.SerializerMethodField()
     # treatments = serializers.SerializerMethodField()
     # parents = serializers.SerializerMethodField()
-    # milk_production = serializers.SerializerMethodField()
+    milk_production = serializers.SerializerMethodField()
+    # production = MilkProductionSerializer()
     class Meta:
         model = Animal
-        fields = '__all__'
+        # fields = '__all__'
+        fields = 'id_number','age', 'milk_production'
+
+    def get_milk_production(self, obj):
+        total_production = MilkProduction.objects.filter(cow=obj).aggregate(total_volume=Sum('morning_volume' + 'evening_volume'))['total_volume']
+        return total_production or 0
 
     # def get_calves
 

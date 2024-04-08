@@ -3,8 +3,8 @@ from livestock.models import Animal
 class MilkProduction(models.Model):
     cow = models.ForeignKey(Animal, on_delete=models.CASCADE, verbose_name="Cow")
     milking_date = models.DateField(verbose_name="Milking Date")
-    morning_volume  = models.DecimalField(max_digits=2, decimal_places=2, verbose_name="Morning Volume (liters)")
-    evening_volume  = models.DecimalField(max_digits=2, decimal_places=2, verbose_name="Evening Volume (liters)")
+    morning_volume  = models.DecimalField(max_digits=5, decimal_places=2, verbose_name="Morning Volume (liters)")
+    evening_volume  = models.DecimalField(max_digits=5, decimal_places=2, verbose_name="Evening Volume (liters)")
 
     class Meta:
         verbose_name = "Milk Production"
