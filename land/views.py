@@ -1,8 +1,15 @@
-from django.shortcuts import render
-from rest_framework import status, viewsets
+from rest_framework import viewsets
+from .models import Parcel, Usage, Maintenance
+from .serializers import ParcelSerializer, UsageSerializer, MaintenanceSerializer
 
-# Create your views here.
-class LandViewSet(viewsets.ModelViewSet):
+class ParcelViewSet(viewsets.ModelViewSet):
+    queryset = Parcel.objects.all()
+    serializer_class = ParcelSerializer
 
-    def list(self, request):
-        pass
+class UsageViewSet(viewsets.ModelViewSet):
+    queryset = Usage.objects.all()
+    serializer_class = UsageSerializer
+
+class MaintenanceViewSet(viewsets.ModelViewSet):
+    queryset = Maintenance.objects.all()
+    serializer_class = MaintenanceSerializer
