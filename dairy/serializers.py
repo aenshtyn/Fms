@@ -1,8 +1,10 @@
 from rest_framework import serializers
 from .models import MilkProduction, DairyFeeds
+from livestock.models import Animal
 
 class MilkProductionSerializer(serializers.ModelSerializer):
     total_volume = serializers.SerializerMethodField()
+    cow = serializers.ReadOnlyField(source='animal.id_number')
 
     class Meta:
         model = MilkProduction

@@ -11,7 +11,7 @@ class Parcel(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)  # Price of the parcel
 
     def __str__(self):
-        return f"Parcel {self.number}"
+        return f"Parcel {self.parcel_number}"
     
 class Usage(models.Model):
     USAGE_OPTIONS = [
@@ -28,7 +28,7 @@ class Usage(models.Model):
     description = models.TextField()
 
     def __str__(self):
-        return f"Usage History for Parcel {self.parcel.number}"
+        return f"Usage History for Parcel {self.parcel.parcel_number}"
     
 class Maintenance(models.Model):
     parcel = models.ForeignKey(Parcel, on_delete=models.CASCADE)
@@ -36,4 +36,4 @@ class Maintenance(models.Model):
     description = models.TextField()
 
     def __str__(self):
-        return f"Maintenance History for Parcel {self.parcel.number}"
+        return f"Maintenance History for Parcel {self.parcel.parcel_number}"

@@ -45,13 +45,13 @@ class EmployeeSerializer(serializers.ModelSerializer):
     position_title = serializers.SerializerMethodField()
     time_worked_for_company = serializers.SerializerMethodField()
     # pending_leave_days = serializers.SerializerMethodField()
-    # orientation_status = serializers.SerializerMethodField()
+    orientation_status = serializers.SerializerMethodField()
     # training_status = serializers.SerializerMethodField()
     # late_days = serializers.SerializerMethodField()
 
     class Meta:
         model = Employee
-        fields = 'name', 'age', 'phone', 'gender', 'salary' ,'hire_date' , 'pending_tasks' , 'completed_tasks', 'department_name', 'position_title', 'time_worked_for_company'
+        fields = 'name', 'age', 'phone', 'gender', 'salary' ,'hire_date' , 'pending_tasks' , 'completed_tasks', 'department_name', 'position_title', 'time_worked_for_company', 'orientation_status'
     def get_pending_tasks(self, obj):
         pending_tasks = Task.objects.filter(assigned_to=obj, status='pending')
         serializer = TaskSerializer(pending_tasks, many=True)
@@ -99,9 +99,11 @@ class EmployeeSerializer(serializers.ModelSerializer):
     #     pending_leave_days = Leave.objects.filter(employee=obj, status='pending').aggregate(total_days=Sum('days'))
     #     return pending_leave_days['total_days'] if pending_leave_days['total_days'] else 0
 
-    # def get_orientation_status(self, obj):
-    #     # Logic to determine orientation status
-    #     return "Completed" if obj.orientation_completed else "Pending"
+    def get_orientation_status(self, obj):
+        
+        # orientation_status = 
+        # Logic to determine orientation status
+        return "Completed" if obj.orientation else "Pending"
 
     # def get_training_status(self, obj):
     #     # Logic to determine training status
