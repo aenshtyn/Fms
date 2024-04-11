@@ -18,3 +18,9 @@ class DairyFeedsSerializer(serializers.ModelSerializer):
     class Meta:
         model = DairyFeeds
         fields = '__all__'
+
+class LactatingAnimalSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Animal
+        fields = 'id_number', 'delivery_date'
