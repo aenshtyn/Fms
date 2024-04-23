@@ -5,9 +5,11 @@ import datetime
 from  django.utils import timezone
 from FMS.mixins import AgeMixin, GenderMixin
 from datetime import timedelta
+from django.core.exceptions import ValidationError
 
 # Create your models here.
 class Animal(AgeMixin, GenderMixin, models.Model):
+    """ Represents farm animals with details like species, breed, health, and ownership. """
 
     SPECIES_CHOICES = [
         ('cattle', 'Cattle'),
@@ -16,7 +18,6 @@ class Animal(AgeMixin, GenderMixin, models.Model):
         ('poultry', 'Poultry'),
         ('others', 'Others'),
     ]
-
     id_number = models.CharField(max_length=50, blank=True, null=True)
     species = models.CharField(blank=False, max_length=80, choices=SPECIES_CHOICES, default='cattle')
     breed = models.CharField(blank=False, max_length=80, default='')
@@ -31,25 +32,46 @@ class Animal(AgeMixin, GenderMixin, models.Model):
     health_status = models.CharField(blank=True, max_length=100)
     notes = models.TextField(blank=True)
 
+    class Meta:
+        ordering = ['id_number']
+        verbose_name_plural = "animals"
+
+    def is_lactating_cow(self):
+        return self.species == 'cattle' and self.gender == 'female'
+    
+    @staticmethod
+    def get_lactating_cows():
+        lactating_animals = Animal.objects.filter(species='cattle', gender='female', )
+        return lactating_animals
+    
     def __str__(self):
         return self.id_number if self.id_number else f'{self.species} ({self.breed})'
     
+    def clean(self):
+        # Custom validation to ensure dates are logical
+        if self.date_of_birth and self.date_acquired:
+            if self.date_of_birth > self.date_acquired:
+                raise ValidationError("Date of birth cannot be after date acquired.")
+        if self.date_of_birth > timezone.now().date():
+            raise ValidationError("Date of birth cannot be in the future.")
+
 class Health(models.Model):
     animal = models.ForeignKey(Animal, on_delete=models.CASCADE)
     date = models.DateField()
     condition = models.CharField(max_length=100)
     treatment = models.TextField(blank=True)
+    symptoms = models.TextField(blank=True)
 
     def __str__(self):
-        return f"{self.animal.id_number} - {self.date}"
+        return f"{self.animal.id_number} - {self.date} - {self.condition}"
     
 class Breeding(models.Model):
-    animal = models.ForeignKey(Animal, related_name='breeding_s', on_delete=models.CASCADE)
-    mate = models.ForeignKey(Animal, related_name='mates', on_delete=models.CASCADE)
+    animal = models.ForeignKey(Animal, related_name='breedings', on_delete=models.CASCADE)
+    mate = models.ForeignKey(Animal, related_name='mated_with', on_delete=models.CASCADE)
     mating_date = models.DateField()
 
     def __str__(self):
-        return f"{self.animal} - Mated with {self.mate} - Expected Due Date: {self.expected_due_date}"
+        return f"{self.animal} - Mated with {self.mate} - Expected Due Date: {self.expected_due_date()}"
     
     def expected_due_date(self):
         if self.animal.species == 'cattle':
@@ -75,9 +97,10 @@ class Vaccination(models.Model):
     vaccine_name = models.CharField(max_length=100)
     date_administered = models.DateField()
     dosage = models.CharField(max_length=50)
+    reaction = models.TextField(blank=True)
 
     def __str__(self):
-        return f"{self.animal} - {self.vaccine_name} - {self.date_administered}"
+        return f"{self.animal} - {self.vaccine_name} - Administered on {self.date_administered}"
     
 class Mortality(models.Model):
     animal = models.ForeignKey(Animal, on_delete=models.CASCADE)
@@ -86,4 +109,4 @@ class Mortality(models.Model):
     disposal_method = models.CharField(max_length=100)
 
     def __str__(self):
-        return f"{self.animal} - Date of Death: {self.date} - Cause: {self.cause_of_death}"
+        return f"{self.animal} - Died on {self.date} - Cause: {self.cause_of_death}"

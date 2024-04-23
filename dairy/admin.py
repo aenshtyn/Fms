@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import MilkProduction, DairyFeeds
+from .models import Production, Feeds
 
-admin.site.register(MilkProduction)
-admin.site.register(DairyFeeds)
+admin.site.register(Production)
+admin.site.register(Feeds)

@@ -2,12 +2,12 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from app import views
 
-from .views import MilkProductionViewSet, DairyFeedsViewSet
+from .views import ProductionViewSet, FeedsViewSet
 
 
 router = DefaultRouter()
-router.register(r'milk-productions', MilkProductionViewSet)
-router.register(r'dairy-feeds', DairyFeedsViewSet)
+router.register(r'production', ProductionViewSet)
+router.register(r'feeds', FeedsViewSet)
 
 
 urlpatterns = [
