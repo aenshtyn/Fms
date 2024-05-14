@@ -1,7 +1,4 @@
 from django.db import models
-
-import datetime
-# from django.contrib.auth.models import User
 from  django.utils import timezone
 from FMS.mixins import AgeMixin, GenderMixin
 from datetime import timedelta
@@ -18,7 +15,15 @@ class Animal(AgeMixin, GenderMixin, models.Model):
         ('poultry', 'Poultry'),
         ('others', 'Others'),
     ]
-    id_number = models.CharField(max_length=50, blank=True, null=True)
+
+    HEALTH_STATUS_CHOICES = [
+        ('healthy', 'Healthy'),
+        ('sick', 'Sick'),
+        ('injured', 'Injured'),
+        ('recovering', 'Recovering'),
+        ('unknown', 'Unknown'),
+    ]
+    id_number = models.CharField(max_length=50, blank=True, null=True, unique=True, db_index=True)
     species = models.CharField(blank=False, max_length=80, choices=SPECIES_CHOICES, default='cattle')
     breed = models.CharField(blank=False, max_length=80, default='')
     date_of_birth = models.DateField()
@@ -29,7 +34,7 @@ class Animal(AgeMixin, GenderMixin, models.Model):
     acquisition_price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     date_sold = models.DateField(blank=True, null=True)
     sale_price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
-    health_status = models.CharField(blank=True, max_length=100)
+    health_status = models.CharField(max_length=100, choices=HEALTH_STATUS_CHOICES, default='healthy')
     notes = models.TextField(blank=True)
 
     class Meta:
@@ -62,6 +67,9 @@ class Health(models.Model):
     treatment = models.TextField(blank=True)
     symptoms = models.TextField(blank=True)
 
+    class Meta:
+        verbose_name_plural = "health records"
+
     def __str__(self):
         return f"{self.animal.id_number} - {self.date} - {self.condition}"
     
@@ -70,24 +78,29 @@ class Breeding(models.Model):
     mate = models.ForeignKey(Animal, related_name='mated_with', on_delete=models.CASCADE)
     mating_date = models.DateField()
 
+    class Meta:
+        verbose_name_plural = "breeding records"
+
     def __str__(self):
         return f"{self.animal} - Mated with {self.mate} - Expected Due Date: {self.expected_due_date()}"
     
     def expected_due_date(self):
-        if self.animal.species == 'cattle':
-            return self.mating_date + timedelta(days=280)
-        elif self.animal.species == 'sheep':
-            return self.mating_date + timedelta(days=147)
-        elif self.animal.species == 'goat':
-            return self.mating_date + timedelta(days=150)
-        else:
-            return None
-    
+        species_gestation_periods = {
+            'cattle': 280,
+            'sheep': 147,
+            'goat': 150,
+        }
+        return self.mating_date + timedelta(days=species_gestation_periods.get(self.animal.species, 0))
+
+
 class Reproduction(models.Model):
     animal = models.OneToOneField(Animal, on_delete=models.CASCADE)
     estrus_detection_date = models.DateField()
     pregnancy_status = models.BooleanField(default=False)
     calving_date = models.DateField(null=True, blank=True)
+
+    class Meta:
+        verbose_name_plural = "reproduction records"
 
     def __str__(self):
         return f"{self.animal} - Estrus Detection: {self.estrus_detection_date} - Pregnancy: {self.pregnancy_status}"
@@ -97,7 +110,9 @@ class Vaccination(models.Model):
     vaccine_name = models.CharField(max_length=100)
     date_administered = models.DateField()
     dosage = models.CharField(max_length=50)
-    reaction = models.TextField(blank=True)
+    
+    class Meta:
+        verbose_name_plural = "vaccinations"
 
     def __str__(self):
         return f"{self.animal} - {self.vaccine_name} - Administered on {self.date_administered}"
@@ -107,6 +122,9 @@ class Mortality(models.Model):
     date = models.DateField()
     cause_of_death = models.CharField(max_length=100)
     disposal_method = models.CharField(max_length=100)
+
+    class Meta:
+        verbose_name_plural = "mortalities"
 
     def __str__(self):
         return f"{self.animal} - Died on {self.date} - Cause: {self.cause_of_death}"
