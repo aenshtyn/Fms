@@ -10,7 +10,11 @@ class Production(models.Model):
 
     class Meta:
         verbose_name = "Milk Production"
+        verbose_name_plural = "Milk Productions"
         unique_together = ('cow', 'milking_date')  # Ensures one record per cow per day
+        indexes = [
+            models.Index(fields=['milking_date']),
+        ]  # Ensures one record per cow per day
 
     @classmethod
     def day_total_volume(cls, milking_date):
@@ -72,4 +76,4 @@ class Feeds(models.Model):
         super(Feeds, self).save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.feed_type.name} on {self.date} - {self.quantity} kg"
+        return f"{self.get_feed_type_display()} on {self.date} - {self.quantity} kg"
