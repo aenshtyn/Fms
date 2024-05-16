@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Parcel, Usage, Maintenance, User
+from .models import Parcel, Usage, Maintenance, Paddock
 
 class UsageSerializer(serializers.ModelSerializer):
     parcel = serializers.ReadOnlyField(source = 'parcel.parcel_number')
@@ -10,6 +10,11 @@ class UsageSerializer(serializers.ModelSerializer):
 class MaintenanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Maintenance
+        fields = '__all__'
+
+class PaddockSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Paddock
         fields = '__all__'
 
 class ParcelSerializer(serializers.ModelSerializer):

@@ -12,6 +12,14 @@ class Parcel(models.Model):
 
     def __str__(self):
         return f"Parcel {self.parcel_number}"
+
+class Paddock(models.Model):
+    land_parcel = models.ForeignKey(Parcel, related_name='paddocks', on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    area = models.DecimalField(max_digits=10, decimal_places=2)  # Area in acres or hectares
+
+    def __str__(self):
+        return f"{self.name} ({self.land_parcel.name})"
     
 class Usage(models.Model):
     USAGE_OPTIONS = [
@@ -21,7 +29,8 @@ class Usage(models.Model):
         ('aquaculture', 'Aquaculture'),
     ]
 
-    parcel = models.ForeignKey(Parcel, on_delete=models.CASCADE)
+    parcel = models.ForeignKey(Parcel, related_name='usages', on_delete=models.CASCADE, null=True, blank=True)
+    paddock = models.ForeignKey(Paddock, related_name='usages', on_delete=models.CASCADE, null=True, blank=True)
     use_type = models.CharField(max_length=50, choices=USAGE_OPTIONS)
     start_date = models.DateField(default=timezone.now)
     end_date = models.DateField(blank=True, null=True)

@@ -1,6 +1,6 @@
 from rest_framework import viewsets
-from .models import Parcel, Usage, Maintenance
-from .serializers import ParcelSerializer, UsageSerializer, MaintenanceSerializer
+from .models import Parcel, Usage, Maintenance, Paddock
+from .serializers import ParcelSerializer, UsageSerializer, MaintenanceSerializer, PaddockSerializer
 
 class ParcelViewSet(viewsets.ModelViewSet):
     queryset = Parcel.objects.all()
@@ -13,3 +13,6 @@ class UsageViewSet(viewsets.ModelViewSet):
 class MaintenanceViewSet(viewsets.ModelViewSet):
     queryset = Maintenance.objects.all()
     serializer_class = MaintenanceSerializer
+class PaddockViewSet(viewsets.ModelViewSet):
+    queryset = Paddock.objects.all()
+    serializer_class = PaddockSerializer
