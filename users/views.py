@@ -5,6 +5,8 @@ from django.core.mail import send_mail
 from .models import User, Farm, Invitation
 from .serializers import UserSerializer, FarmSerializer, InvitationSerializer, FarmUsersSerializer
 from .permissions import IsFarmOwner
+from django.http import HttpResponse
+from .tasks import send_whatsapp_message, send_daily_metrics
 
 class InvitationViewSet(viewsets.ModelViewSet):
     queryset = Invitation.objects.all()
@@ -64,3 +66,16 @@ class RegisterInvitedUser(APIView):
             invitation.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+def send_message_view(request):
+    # phone_number = '+254714347036'
+    phone_number = '+254720299258'
+    message = 'Hello Evans, this is a sample Whatsapp Message from FarmSync! The System Being Developed by Super Engineer'
+    send_whatsapp_message.delay(phone_number, message)
+    return HttpResponse('WhatsApp message is being sent asynchronously')
+
+
+def send_analytics_view(request):
+    phone_number = '+254714347036'
+    send_daily_metrics.delay(phone_number)
+    return HttpResponse('Daily analytics WhatsApp message is being sent asynchronously.')

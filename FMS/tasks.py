@@ -1,7 +1,7 @@
 from celery import shared_task
 from django.utils import timezone
 from users.models import Farm
-from services.whatsapp_service import WhatsAppService
+from .services.whatsapp_service import WhatsAppService
 
 @shared_task
 def send_daily_metrics():
