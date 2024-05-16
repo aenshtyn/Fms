@@ -21,6 +21,10 @@ class Category(models.Model):
     name = models.CharField(max_length=50, choices=CATEGORY_CHOICES, unique=True)
     description = models.TextField(blank=True, null=True)
 
+    class Meta:
+        verbose_name = "Inventory Category"
+        verbose_name_plural = "Inventory Categories"
+
     def __str__(self):
         return self.get_name_display()
     

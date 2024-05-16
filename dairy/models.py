@@ -34,8 +34,8 @@ class Production(models.Model):
         """Get total volume of milk produced by each cow on a specific date."""
         return cls.objects.filter(milking_date=milking_date).values('cow').annotate(
             total_morning_volume=Sum('morning_volume'),
-            total_evening_volume=Sum('evening_volume')
-        )
+            total_evening_volume=Sum('evening_volume'),
+            total_volume=Sum('morning_volume') + Sum('evening_volume')).order_by('cow__name')
     
     def clean(self):
         """Ensure only one milk production record exists per cow per day."""
