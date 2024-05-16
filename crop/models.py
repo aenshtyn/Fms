@@ -1,12 +1,13 @@
 from django.db import models
 from django.core.exceptions import ValidationError
+from inventory.models import Product, Category
 
 # Create your models here.
 # from FMS.mixins import , AgeMixin, GenderMixin
 
 class Crop(models.Model):
 
-    CATEGORY_CHOICES = [
+    USE_CHOICES = [
         ('animal_feed', 'Animal Feed'),
         ('human_consumption', 'Human Consumption'),
     ]
@@ -22,14 +23,14 @@ class Crop(models.Model):
 
     name = models.CharField(max_length=100)
     variety = models.CharField(max_length=100, blank=True, null=True)
-    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default = 'human_consumption')
+    crop_use = models.CharField(max_length=20, choices=USE_CHOICES, default = 'human_consumption')
     planting_date = models.DateField()
     harvest_date = models.DateField()
     quantity = models.DecimalField(max_digits=10, decimal_places=2)
     unit = models.CharField(max_length=50, choices=UNIT_CHOICES, default = 'kg')
     location = models.CharField(max_length=100, blank=True, null=True)
     notes = models.TextField(blank=True)
-    feeds_livestock = models.BooleanField(default=False)  # Indicates if the crop becomes feed for livestock
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='crop_productions', blank=True, null=True)  # Indicates if the crop becomes feed for livestock
 
     # Additional fields specific to crop management can be added here
 
@@ -41,6 +42,16 @@ class Crop(models.Model):
             models.Index(fields=['harvest_date']),
             models.Index(fields=['category']),
         ]
+
+    def save(self, *args, **kwargs):
+        # Automatically associate the production with the appropriate product
+        if not self.product:
+            category, created = Category.objects.get_or_create(name='Crops')
+            self.product, created = Product.objects.get_or_create(
+                name=self.crop_type,
+                defaults={'category': category, 'unit_price': 0, 'sku': f'{self.crop_type.upper()}-001'}
+            )
+        super().save(*args, **kwargs)   
 
     def __str__(self):
         if self.variety:
