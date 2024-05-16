@@ -23,7 +23,7 @@ class Crop(models.Model):
 
     name = models.CharField(max_length=100)
     variety = models.CharField(max_length=100, blank=True, null=True)
-    crop_use = models.CharField(max_length=20, choices=USE_CHOICES, default = 'human_consumption')
+    use = models.CharField(max_length=20, choices=USE_CHOICES, default = 'human_consumption')
     planting_date = models.DateField()
     harvest_date = models.DateField()
     quantity = models.DecimalField(max_digits=10, decimal_places=2)
@@ -40,7 +40,7 @@ class Crop(models.Model):
             models.Index(fields=['name']),
             models.Index(fields=['planting_date']),
             models.Index(fields=['harvest_date']),
-            models.Index(fields=['category']),
+            models.Index(fields=['use']),
         ]
 
     def save(self, *args, **kwargs):

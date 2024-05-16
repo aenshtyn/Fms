@@ -1,11 +1,28 @@
 from django.db import models
 
 class Category(models.Model):
-    name = models.CharField(max_length=100, unique=True)
+    CATEGORY_CHOICES = [
+        ('CROP_HC', 'Crops (Human Consumption)'),
+        ('CROP_LF', 'Crops (Livestock Feed)'),
+        ('ANIMAL_PROD', 'Animal Products'),
+        ('FARM_MACH', 'Farm Machinery'),
+        ('TOOLS', 'Tools'),
+        ('FERTILIZERS', 'Fertilizers'),
+        ('PEST_HERB', 'Pesticides and Herbicides'),
+        ('SEEDS', 'Seeds and Planting Materials'),
+        ('ANIMAL_FEED', 'Animal Feed'),
+        ('VET_SUPPLIES', 'Veterinary Supplies'),
+        ('FARM_OPS', 'Farm Operations Supplies'),
+        ('PACKAGING', 'Packaging Materials'),
+        ('CONSTRUCTION', 'Construction Materials'),
+        ('PROTECTIVE', 'Protective Gear'),
+    ]
+
+    name = models.CharField(max_length=50, choices=CATEGORY_CHOICES, unique=True)
     description = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return self.name
+        return self.get_name_display()
     
 class Product(models.Model):
     name = models.CharField(max_length=100)
@@ -26,6 +43,9 @@ class Stock(models.Model):
 
     def __str__(self):
         return f"{self.product.name} - {self.quantity}"
+    
+    def check_stock_level(self):
+        return self.quantity < self.minimum_required
 
 class Transaction(models.Model):
     
