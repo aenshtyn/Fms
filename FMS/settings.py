@@ -39,8 +39,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'allauth',
     'allauth.account',
+    'allauth.socialaccount',  
+    'allauth.socialaccount.providers.google', 
     'rest_framework',
-    # 'auth',
+    'rest_framework.authtoken',
+    'dj_rest_auth',
+    'dj_rest_auth.registration',
+    'users',
     'app',
     'crm',
     'crop',
@@ -58,7 +63,7 @@ INSTALLED_APPS = [
 
 
 ]
-AUTH_USER_MODEL = 'auth.User'
+AUTH_USER_MODEL = 'users.User'
 
 SITE_ID = 1
 
@@ -153,9 +158,15 @@ REST_FRAMEWORK = {
 
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework.authentication.TokenAuthentication",
+        'rest_framework.authentication.SessionAuthentication',
     ]
 }
 
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+REST_USE_JWT = True
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 

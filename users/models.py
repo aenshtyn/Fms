@@ -24,7 +24,7 @@ class Invitation(models.Model):
 
     email = models.EmailField()
     farm = models.ForeignKey(Farm, related_name='invitations', on_delete=models.CASCADE)
-    role = models.CharField(max_length=10, choices=INVITATION_ROLES)
+    role = models.CharField(max_length=15, choices=INVITATION_ROLES)
     token = models.CharField(max_length=50, default=get_random_string, unique=True)
     accepted = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)

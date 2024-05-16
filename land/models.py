@@ -1,13 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from django.conf import settings
 
 class Parcel(models.Model):
     
     parcel_number = models.CharField(max_length=50)
     description = models.CharField(max_length=255)
     size = models.DecimalField(max_digits=10, decimal_places=2)  # Use DecimalField for precise measurements
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)  # Link to the user who owns the parcel
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)  # Link to the user who owns the parcel
     price = models.DecimalField(max_digits=10, decimal_places=2)  # Price of the parcel
 
     def __str__(self):
