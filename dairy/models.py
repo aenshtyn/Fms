@@ -1,12 +1,14 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 from livestock.models import Animal
+from inventory.models import Product,Category
 from django.db.models import Sum
 class Production(models.Model):
     cow = models.ForeignKey(Animal, on_delete=models.CASCADE, verbose_name="Cow", related_name="productions")
     milking_date = models.DateField(verbose_name="Milking Date")
     morning_volume  = models.DecimalField(max_digits=5, decimal_places=2, verbose_name="Morning Volume (liters)",default=0.00)
     evening_volume  = models.DecimalField(max_digits=5, decimal_places=2, verbose_name="Evening Volume (liters)", default=0.00)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='milk_productions', blank=True, null=True)
 
     class Meta:
         verbose_name = "Milk Production"
@@ -41,6 +43,13 @@ class Production(models.Model):
             raise ValidationError("A production record already exists for this cow on this date.")
 
     def save(self, *args, **kwargs):
+        if not self.product:
+            milk_category, created = Category.objects.get_or_create(name='Dairy')
+            self.product, created = Product.objects.get_or_create(
+                name='Milk',
+                defaults={'category': milk_category, 'unit_price': 0}
+            )
+            
         self.full_clean()  # Validate before saving
         super().save(*args, **kwargs)
 
