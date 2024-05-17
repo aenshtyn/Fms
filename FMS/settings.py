@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "django.contrib.sites",
     'allauth',
     'allauth.account',
     'allauth.socialaccount',  
@@ -72,6 +73,20 @@ INSTALLED_APPS = [
 
 
 ]
+
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    "allauth.account.middleware.AccountMiddleware",
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+
 AUTH_USER_MODEL = 'users.User'
 
 SITE_ID = 1
@@ -86,17 +101,17 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 
-MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-     "allauth.account.middleware.AccountMiddleware",
-]
+LOGIN_REDIRECT_URL = "/"
+
+SOCIALACCOUNT_PROVIDERS = {
+    "github": {
+        "APP": {
+            "client_id": "123",
+            "secret": "456",
+        }
+    }
+}
+
 
 ROOT_URLCONF = 'FMS.urls'
 
@@ -125,7 +140,7 @@ WSGI_APPLICATION = 'FMS.wsgi.application'
 DATABASES = {
       'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'fmsdb',
+        'NAME': 'fmsdb1',
         'USER': 'aenshtyn',
         'PASSWORD': '0000',
         'HOST': 'localhost',
@@ -201,5 +216,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 TWILIO_ACCOUNT_SID = 'AC114e14513f144a9126073262fa5c37e2'
 
 TWILIO_AUTH_TOKEN = '0ba6ca7a4ef85cc9bcdcc35eaef0a25d'
-TWILIO_WHATSAPP_FROM = 'whatsapp:+14155238886'  # This is Twilio's sandbox number for WhatsApp
+TWILIO_WHATSAPP_FROM = 'whatsapp:+254714347036'  # This is Twilio's sandbox number for WhatsApp
 
