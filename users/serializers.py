@@ -1,26 +1,33 @@
 from rest_framework import serializers
-from .models import User, Farm, Invitation
+from .models import  Farm, CustomUser, UserFarmRole
 
 class UserSerializer(serializers.ModelSerializer):
+
+    password = serializers.CharField(write_only=True)
     class Meta:
-        model = User
-        fields = ['id', 'username', 'email', 'phone_number']
+        model = CustomUser
+        fields = ['username', 'email', 'password', 'role']
+        read_only_fields = ['role']
+
+    def create(self, validated_data):
+        user = CustomUser.objects.create_user(
+            username=validated_data['username'],
+            email=validated_data['email'],
+            password=validated_data['password'],
+            role='Farm Owner'
+        )
+        return user
 
 class FarmSerializer(serializers.ModelSerializer):
     class Meta:
         model = Farm
         fields = '__all__'
 
-class InvitationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Invitation
-        fields = '__all__'
+# class FarmUsersSerializer(serializers.ModelSerializer):
+#     managers = UserSerializer(many=True)
+#     shareholders = UserSerializer(many=True)
+#     guests = CustomUserSerializer(many=True)
 
-class FarmUsersSerializer(serializers.ModelSerializer):
-    managers = UserSerializer(many=True)
-    shareholders = UserSerializer(many=True)
-    guests = UserSerializer(many=True)
-
-    class Meta:
-        model = Farm
-        fields = ['id', 'name', 'managers', 'shareholders', 'guests']
+#     class Meta:
+#         model = Farm
+#         fields = ['id', 'name', 'managers', 'shareholders', 'guests']
