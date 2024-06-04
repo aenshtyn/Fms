@@ -102,9 +102,9 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
 
-SECURE_SSL_REDIRECT = True
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
+# SECURE_SSL_REDIRECT = True
+# SESSION_COOKIE_SECURE = True
+# CSRF_COOKIE_SECURE = True
 
 
 AUTH_USER_MODEL = 'users.CustomUser'
@@ -160,7 +160,7 @@ WSGI_APPLICATION = 'FMS.wsgi.application'
 DATABASES = {
       'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'fms',
+        'NAME': 'fmsdb',
         'USER': 'aenshtyn',
         'PASSWORD': '0000',
         'HOST': 'localhost',
