@@ -21,7 +21,7 @@ urlpatterns = [
     path('api/', include([
         path('auth/', include('users.urls')),
         path('crm/', include('crm.urls')),
-        path('crop/', include('crop.urls')),
+        path('agriculture/', include('agriculture.urls')),
         path('dairy/', include('dairy.urls')),
         path('equipment/', include('equipment.urls')),
         path('finance/', include('finance.urls')),

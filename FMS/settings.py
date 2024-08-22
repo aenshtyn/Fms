@@ -60,7 +60,7 @@ INSTALLED_APPS = [
     'users',
     'app',
     'crm',
-    'crop',
+    'agriculture',
     'dairy',
     'equipment',
     'finance',
@@ -109,7 +109,7 @@ SIMPLE_JWT = {
 
 AUTH_USER_MODEL = 'users.CustomUser'
 
-# SITE_ID = 1
+SITE_ID = 1
 
 # AUTHENTICATION_BACKENDS = (
 #     'django.contrib.auth.backends.ModelBackend',

@@ -1,9 +1,9 @@
 from django.apps import AppConfig
 
 
-class CropConfig(AppConfig):
+class AgricultureConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'crop'
+    name = 'agriculture'
 
     def ready(self):
-        import crop.signals
+        import agriculture.signals
