@@ -12,4 +12,4 @@ __pycache__/
 *.pyc
 
 # Ignore Docker files if necessary
-.dockerignore
+.dockerignore.env
