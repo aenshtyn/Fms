@@ -121,7 +121,7 @@ class ProductionViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
     
     @action(detail=False, methods=['get'])
-    def monthly(self, request, year, month):
+    def monthly(self, request):
 
         if year is None or month is None:
             return Response({'error': 'Year and month parameters are required'}, status=status.HTTP_400_BAD_REQUEST)

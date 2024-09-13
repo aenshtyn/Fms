@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
+from dotenv import load_dotenv
+
+# Load the .env file
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -233,8 +237,8 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-TWILIO_ACCOUNT_SID = 'AC114e14513f144a9126073262fa5c37e2'
+TWILIO_ACCOUNT_SID = os.getenv('TWILIO_ACCOUNT_SID')
+TWILIO_AUTH_TOKEN = os.getenv('TWILIO_AUTH_TOKEN')
 
-TWILIO_AUTH_TOKEN = '0ba6ca7a4ef85cc9bcdcc35eaef0a25d'
-TWILIO_WHATSAPP_FROM = 'whatsapp:+254714347036'  # This is Twilio's sandbox number for WhatsApp
+ # This is Twilio's sandbox number for WhatsApp
 
