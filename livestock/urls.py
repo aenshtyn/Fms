@@ -4,7 +4,7 @@ from .views import AnimalViewSet, HealthViewSet, BreedingViewSet, ReproductionVi
 
 router = DefaultRouter()
 
-router.register(r'animals', AnimalViewSet)
+router.register(r'animals/(?<species>\w+)', AnimalViewSet, basenmae='animal')
 router.register(r'health', HealthViewSet)
 router.register(r'breeding', BreedingViewSet)
 router.register(r'reproduction', ReproductionViewSet)
